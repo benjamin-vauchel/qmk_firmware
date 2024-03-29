@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <keymap_french.h>
 
+// unicode names
 enum unicode_names {
     POOP,
     ROLF,
@@ -44,11 +45,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
 KC_TAB,    FR_A,    FR_Z,    FR_E,    FR_R,    FR_T,                         FR_Y,    FR_U,    FR_I,    FR_O,   FR_P,  KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_LCTL,    FR_Q,    FR_S,    FR_D,    FR_F,    FR_G,                         FR_H,    FR_J,    FR_K,    FR_L, FR_M, KC_DEL,
+MT(MOD_LSFT, KC_CAPS_LOCK),    FR_Q,    FR_S,    FR_D,    FR_F,    FR_G,                         FR_H,    FR_J,    FR_K,    FR_L, FR_M, KC_DEL,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-KC_LSFT,    FR_W,    FR_X, FR_C,    FR_V,    FR_B,                         FR_N,    FR_COMM, FR_SCLN,  FR_COLN, FR_EXLM,  KC_ESC,
+KC_LCTL,    FR_W,    FR_X, FR_C,    FR_V,    FR_B,                         FR_N,    FR_COMM, FR_SCLN,  FR_COLN, FR_EXLM,  MT(MOD_LCTL, KC_ESC),
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_LALT
+        KC_LALT,   TT(1),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   MO(2), KC_LGUI
 //`--------------------------'  `--------------------------'
 
 ),
@@ -57,11 +58,11 @@ KC_LGUI,   MO(1),  KC_SPC,     KC_ENT,   MO(2), KC_LALT
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
 KC_TAB,    FR_AMPR,    FR_EACU,    FR_DQUO,    FR_QUOT,    FR_LPRN,                         FR_MINS,    FR_EGRV,    FR_UNDS,    FR_CCED,    FR_AGRV, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_LCTL, UM(1), XXXXXXX, XXXXXXX, KC_INS, KC_HOME,                      KC_END, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_DEL,
+        MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, XXXXXXX, XXXXXXX, KC_INS, KC_HOME,                      KC_END, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_DEL,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-KC_LSFT, UC_NEXT, KC_MS_BTN3, KC_MS_BTN2, KC_MS_BTN1, XXXXXXX,                      KC_MS_WH_DOWN, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_MS_WH_UP,
+        KC_LCTL, XXXXXXX, KC_MS_BTN3, KC_MS_BTN2, KC_MS_BTN1, XXXXXXX,                      KC_MS_WH_DOWN, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_MS_WH_UP,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-KC_LGUI, _______,  KC_SPC,     KC_ENT,   MO(3), KC_RALT
+        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   MO(3), KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 
@@ -71,13 +72,13 @@ KC_LGUI, _______,  KC_SPC,     KC_ENT,   MO(3), KC_RALT
 // X, _, #, $, {,     }, \, |, /, X
 // X, `, ", ', [,     ], ,, ;, :, !
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_TAB, KC_BSLS,   FR_PLUS, FR_EQL,  FR_MINS,    FR_LPRN,                      FR_RPRN, FR_RABK, FR_LABK, FR_AMPR, XXXXXXX, KC_BSPC,
+        KC_TAB, KC_BSLS,   FR_PLUS, FR_EQL,  FR_MINS,    FR_LPRN,                      FR_RPRN, FR_RABK, FR_LABK, FR_AMPR, FR_PERC, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_LCTL, XXXXXXX, FR_UNDS, FR_HASH, FR_DLR, FR_LCBR,                      FR_RCBR,  FR_BSLS, FR_PIPE, FR_SLSH, FR_CIRC,  KC_DEL,
+        MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, FR_UNDS, FR_HASH, FR_DLR, FR_LCBR,                      FR_RCBR,  FR_BSLS, FR_PIPE, FR_SLSH, FR_CIRC,  KC_DEL,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-KC_LSFT, XXXXXXX, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC,                      FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
+KC_LCTL, XXXXXXX, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC,                      FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-KC_LGUI,   MO(3),  KC_SPC,     KC_ENT, _______, KC_RALT
+        KC_LALT,   MO(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 
@@ -89,7 +90,7 @@ KC_LGUI,   MO(3),  KC_SPC,     KC_ENT, _______, KC_RALT
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RALT
+        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
 //`--------------------------'  `--------------------------'
 )
 };
