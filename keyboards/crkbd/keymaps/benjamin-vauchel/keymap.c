@@ -39,6 +39,28 @@ enum {
   
   };
 
+const key_override_t home_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_LEFT, KC_HOME);
+const key_override_t end_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_RIGHT, KC_END);
+const key_override_t pageup_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_UP, KC_PGUP);
+const key_override_t pagedn_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_DOWN, KC_PGDN);
+const key_override_t mwup_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_MS_UP, KC_MS_WH_UP);
+const key_override_t mwdn_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_MS_DOWN, KC_MS_WH_DOWN);
+const key_override_t mbtn1_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_MS_LEFT, KC_MS_BTN1);
+const key_override_t mbtn2_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_MS_RIGHT, KC_MS_BTN2);
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &home_key_override,
+    &end_key_override,
+    &pageup_key_override,
+    &pagedn_key_override,
+    &mwup_key_override,
+    &mwdn_key_override,
+    &mbtn1_key_override,
+    &mbtn2_key_override,
+    NULL // Null terminate the array of overrides!
+};
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [0] = LAYOUT_split_3x6_3(
@@ -49,7 +71,7 @@ MT(MOD_LSFT, KC_CAPS_LOCK),    FR_Q,    FR_S,    FR_D,    FR_F,    FR_G,        
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 KC_LCTL,    FR_W,    FR_X, FR_C,    FR_V,    FR_B,                         FR_N,    FR_COMM, FR_SCLN,  FR_COLN, FR_EXLM,  MT(MOD_LCTL, KC_ESC),
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT,   TT(1),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   MO(2), KC_LGUI
+        KC_LALT,   TT(1),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(2), KC_LGUI
 //`--------------------------'  `--------------------------'
 
 ),
@@ -58,11 +80,11 @@ KC_LCTL,    FR_W,    FR_X, FR_C,    FR_V,    FR_B,                         FR_N,
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
 KC_TAB,    FR_AMPR,    FR_EACU,    FR_DQUO,    FR_QUOT,    FR_LPRN,                         FR_MINS,    FR_EGRV,    FR_UNDS,    FR_CCED,    FR_AGRV, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, XXXXXXX, XXXXXXX, KC_INS, KC_HOME,                      KC_END, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_DEL,
+        MT(MOD_LSFT, KC_CAPS_LOCK), FR_1, FR_2, FR_3, FR_4, FR_5,                      KC_INS, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_DEL,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_LCTL, XXXXXXX, KC_MS_BTN3, KC_MS_BTN2, KC_MS_BTN1, XXXXXXX,                      KC_MS_WH_DOWN, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_MS_WH_UP,
+        KC_LCTL, FR_6, FR_7, FR_8, FR_9, FR_0,                      XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, MT(MOD_LCTL, KC_ESC),
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   MO(3), KC_LGUI
+        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(3), KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 
@@ -72,13 +94,13 @@ KC_TAB,    FR_AMPR,    FR_EACU,    FR_DQUO,    FR_QUOT,    FR_LPRN,             
 // X, _, #, $, {,     }, \, |, /, X
 // X, `, ", ', [,     ], ,, ;, :, !
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        KC_TAB, KC_BSLS,   FR_PLUS, FR_EQL,  FR_MINS,    FR_LPRN,                      FR_RPRN, FR_RABK, FR_LABK, FR_AMPR, FR_PERC, KC_BSPC,
-//|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, FR_UNDS, FR_HASH, FR_DLR, FR_LCBR,                      FR_RCBR,  FR_BSLS, FR_PIPE, FR_SLSH, FR_CIRC,  KC_DEL,
+KC_TAB, KC_BSLS,   FR_PLUS, FR_EQL,  FR_MINS,    FR_LPRN,                      FR_RPRN, FR_RABK, FR_LABK, FR_AMPR, FR_PERC, KC_BSPC,
+//|--------+--------+--------+-------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, FR_UNDS, FR_HASH, FR_DLR, FR_LCBR,                      FR_RCBR,  FR_BSLS, FR_PIPE, FR_SLSH, FR_CIRC,  KC_DEL,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 KC_LCTL, XXXXXXX, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC,                      FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT,   MO(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
+KC_LALT,   TT(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 

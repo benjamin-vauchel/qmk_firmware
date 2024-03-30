@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define TAPPING_TOGGLE 2
+#define TAPPING_TOGGLE 1
 
 //#define USE_MATRIX_I2C
 
