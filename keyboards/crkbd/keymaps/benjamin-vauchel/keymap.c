@@ -39,6 +39,7 @@ enum {
   
   };
 
+// Overrides
 const key_override_t home_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_LEFT, KC_HOME);
 const key_override_t end_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_RIGHT, KC_END);
 const key_override_t pageup_key_override = ko_make_basic(MOD_BIT(KC_RALT), KC_UP, KC_PGUP);
@@ -61,6 +62,56 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     NULL // Null terminate the array of overrides!
 };
 
+// Layer indicator
+void keyboard_post_init_user(void) {
+  // Call the post init code.
+  rgblight_enable_noeeprom(); // enables Rgb, without saving settings
+  rgblight_sethsv_noeeprom(0, 0, 0); // sets the color to teal/cyan without saving
+
+  //  debug_enable=true;
+  //debug_matrix=true;
+}
+
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+if (matrix_is_on(7, 4) || matrix_is_on(3, 4)) {
+  return false;
+    }
+
+    if (get_highest_layer(layer_state) > 0) {
+  uint8_t layer = get_highest_layer(layer_state);
+
+      for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+  for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+        uint8_t index = g_led_config.matrix_co[row][col];
+
+    if (index >= led_min && index < led_max && index != NO_LED) {
+        if (layer == 1
+      && (keymap_key_to_keycode(layer, (keypos_t){col,row}) == FR_LPRN || keymap_key_to_keycode(layer, (keypos_t){col,row}) == FR_MINS)
+      ) {
+      rgb_matrix_set_color(index, RGB_WHITE);
+          } else  if (layer == 2
+        && (keymap_key_to_keycode(layer, (keypos_t){col,row}) == FR_LCBR || keymap_key_to_keycode(layer, (keypos_t){col,row}) == FR_RCBR)
+        ) {
+        rgb_matrix_set_color(index, RGB_WHITE);
+            }else  if (layer == 3
+          && (row == 2 && (col == 5 || col == 6))
+          ) {
+          rgb_matrix_set_color(index, RGB_WHITE);
+              } else {
+
+            rgb_matrix_set_color(index, RGB_BLACK);
+            }
+            }
+    }
+  }
+  } else {
+    rgb_matrix_set_color_all(0,0,0);
+    }
+      return false;
+  }
+
+// Layers
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [0] = LAYOUT_split_3x6_3(
@@ -71,7 +122,7 @@ MT(MOD_LSFT, KC_CAPS_LOCK),    FR_Q,    FR_S,    FR_D,    FR_F,    FR_G,        
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 KC_LCTL,    FR_W,    FR_X, FR_C,    FR_V,    FR_B,                         FR_N,    FR_COMM, FR_SCLN,  FR_COLN, FR_EXLM,  MT(MOD_LCTL, KC_ESC),
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT,   TT(1),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(2), KC_LGUI
+        TG(0),   TT(1),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(2), KC_LGUI
 //`--------------------------'  `--------------------------'
 
 ),
@@ -84,7 +135,7 @@ KC_TAB,    FR_AMPR,    FR_EACU,    FR_DQUO,    FR_QUOT,    FR_LPRN,             
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_LCTL, FR_6, FR_7, FR_8, FR_9, FR_0,                      XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, MT(MOD_LCTL, KC_ESC),
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(3), KC_LGUI
+        TG(0), _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT),   TT(3), KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 
@@ -100,7 +151,7 @@ MT(MOD_LSFT, KC_CAPS_LOCK), XXXXXXX, FR_UNDS, FR_HASH, FR_DLR, FR_LCBR,         
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 KC_LCTL, XXXXXXX, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC,                      FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-KC_LALT,   TT(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
+        TG(0),   TT(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
 //`--------------------------'  `--------------------------'
 ),
 
@@ -112,7 +163,7 @@ KC_LALT,   TT(3),  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_L
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
 RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-        KC_LALT, _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
+        TG(0), _______,  MT(MOD_LALT, KC_SPC),     MT(MOD_RALT, KC_ENT), _______, KC_LGUI
 //`--------------------------'  `--------------------------'
 )
 };
