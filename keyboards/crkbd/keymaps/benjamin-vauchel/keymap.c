@@ -41,6 +41,15 @@ const key_override_t mbtn1_key_override  = ko_make_basic(MOD_BIT(KC_RALT), KC_MS
 const key_override_t mbtn2_key_override  = ko_make_basic(MOD_BIT(KC_RALT), KC_MS_RIGHT, KC_MS_BTN2);
 const key_override_t euro_key_override   = ko_make_basic(MOD_MASK_ALT | MOD_MASK_SHIFT, KC_NUBS, FR_EURO);
 
+bool trema_override_action(bool activated, void *context) {
+    if (activated) {
+        tap_code16(FR_DIAE);
+    }
+    return false;
+}
+
+const key_override_t trema_key_override = {.trigger_mods = MOD_BIT(KC_LALT), .layers = ~0, .suppressed_mods = MOD_BIT(KC_LALT), .options = ko_options_default, .negative_mod_mask = 0, .custom_action = trema_override_action, .context = NULL, .trigger = FR_CIRC, .replacement = KC_NO, .enabled = NULL};
+
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
     &home_key_override,
@@ -52,6 +61,7 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &mbtn1_key_override,
     &mbtn2_key_override,
     &euro_key_override,
+    &trema_key_override,
     NULL // Null terminate the array of overrides!
 };
 
@@ -205,22 +215,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {[0] = LAYOUT_split
                                                                   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                                                   KC_LGUI, FR_6, FR_7, FR_8, FR_9, FR_0, XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, MT(MOD_LCTL, KC_ESC),
                                                                   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                                  LCMD(LCTL(KC_SPC)), _______, MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), TT(3), KC_RALT
+                                                                  LCMD(LCTL(KC_SPC)), TO(0), MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), TT(3), KC_RALT
                                                                   //`--------------------------'  `--------------------------'
                                                                   ),
 
                                                               [2] = LAYOUT_split_3x6_3(
-                                                                  // *, +, =, -, (,     ), >, <, &, ^
+                                                                  // *, +, =, -, (,     ), <, >, &, ^
                                                                   // @, _, #, $, {,     }, \, |, /, %
-                                                                  // €, `, ", ', [,     ], ,, ;, :, !
+                                                                  // ù, `, ", ', [,     ], ,, ;, :, !
                                                                   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-                                                                  KC_TAB, FR_ASTR, FR_PLUS, FR_EQL, FR_MINS, FR_LPRN, FR_RPRN, FR_HASH, FR_AT, FR_AMPR, FR_CIRC, KC_BSPC,
+                                                                  KC_TAB, FR_ASTR, FR_PLUS, FR_EQL, FR_MINS, FR_LPRN, FR_RPRN, FR_AT, FR_HASH, FR_AMPR, FR_CIRC, KC_BSPC,
                                                                   //|--------+--------+--------+-------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                                                   MT(MOD_LSFT, KC_CAPS_LOCK), FR_LABK, FR_UNDS, FR_RABK, FR_DLR, FR_LCBR, FR_RCBR, FR_BSLS, FR_PIPE, FR_SLSH, FR_PERC, KC_DEL,
                                                                   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-                                                                  KC_LGUI, FR_EURO, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC, FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
+                                                                  KC_LGUI, FR_LUGR, FR_GRV, FR_DQUO, FR_QUOT, FR_LBRC, FR_RBRC, FR_COMM, FR_SCLN, FR_COLN, FR_EXLM, KC_TILD,
                                                                   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                                  LCMD(LCTL(KC_SPC)), TT(3), MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), _______, KC_RALT
+                                                                  LCMD(LCTL(KC_SPC)), TT(3), MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), TO(0), KC_RALT
                                                                   //`--------------------------'  `--------------------------'
                                                                   ),
 
@@ -232,6 +242,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {[0] = LAYOUT_split
                                                                   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
                                                                   PHP_EQ_STRICT, PHP_NEQ_STRICT, XXXXXXX, XXXXXXX, CL_COMP, CL_CMIT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                                                   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                                  LCMD(LCTL(KC_SPC)), _______, MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), _______, KC_RALT
+                                                                  LCMD(LCTL(KC_SPC)), TO(0), MT(MOD_LALT, KC_SPC), MT(MOD_RALT, KC_ENT), TO(0), KC_RALT
                                                                   //`--------------------------'  `--------------------------'
                                                                   )};
